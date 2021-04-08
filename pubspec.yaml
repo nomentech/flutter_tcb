@@ -23,8 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  cloudbase_core: ^0.0.11
+  cloudbase_auth: ^0.0.14
+  cloudbase_function: ^0.0.2
+  cloudbase_storage: ^0.0.3
+  cloudbase_database: ^0.0.12
+  flutter_config: ^1.0.8
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
