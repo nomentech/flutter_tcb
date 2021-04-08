@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cloudbase_auth/cloudbase_auth.dart';
 import 'package:cloudbase_core/cloudbase_core.dart';
+import 'package:cloudbase_function/cloudbase_function.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 import 'package:flutter_tcb/bottom_nav_bar.dart';
@@ -37,9 +38,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  String ticket;
+  Map<String, dynamic> data = {'customUserId': '123456'};
 
   CloudBaseCore core;
   CloudBaseAuth auth;
+  CloudBaseFunction cloudbase;
 
   @override
   void initState() {
@@ -52,6 +56,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     auth = CloudBaseAuth(core);
+    cloudbase = CloudBaseFunction(core);
+
     super.initState();
   }
 
@@ -84,7 +90,13 @@ class _HomePageState extends State<HomePage> {
                 //   wxAppId: FlutterConfig.get('WXAPPID') as String,
                 //   wxUniLink: FlutterConfig.get('WXUNILINK') as String,
                 // );
-                auth.signInAnonymously();
+                // auth.signInAnonymously();
+                cloudbase
+                    .callFunction(
+                      'getTicket',
+                      data,
+                    )
+                    .then((response) => auth.signInWithTicket(response.data));
                 return Center(child: CircularProgressIndicator());
               }
             },
